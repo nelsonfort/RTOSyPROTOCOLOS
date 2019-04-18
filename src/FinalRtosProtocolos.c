@@ -49,8 +49,6 @@ uint8_t delayInicial = 30;
 //Sincronizacion y proteccion de datos
 xSemaphoreHandle SemBin[4];
 
-uint16_t acelerador = 0;
-uint16_t freno = 0;
 /*==================[declaraciones de funciones internas]====================*/
 
 /*==================[declaraciones de funciones externas]====================*/
@@ -58,10 +56,10 @@ uint16_t freno = 0;
 // Prototipo de funcion de la tarea
 void taskLedVariable( void* taskParmPtr );
 void taskMefAntirrebote( void* taskParmPtr );
-void taskSenialTecla1( void* taskParmPtr );
+/*void taskSenialTecla1( void* taskParmPtr );
 void taskSenialTecla2( void* taskParmPtr );
 void taskSenialTecla3( void* taskParmPtr );
-void taskSenialTecla4( void* taskParmPtr );
+void taskSenialTecla4( void* taskParmPtr );*/
 
 //--- Tareas propias del vehiculo
 void taskProcessor(void* taskParmPtr);
@@ -79,7 +77,7 @@ int main(void)
    boardConfig();
 
    // UART for debug messages
-   debugPrintConfigUart( UART_USB, 115200 );
+   //debugPrintConfigUart( UART_USB, 115200 );
 
    // Crear tarea en freeRTOS
    xTaskCreate(
@@ -92,99 +90,94 @@ int main(void)
    );
 
    xTaskCreate(
-		   taskMefAntirrebote,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskMefAntirrebote",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
-		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+		   taskMefAntirrebote,
+		   (const char *)"taskMefAntirrebote",
+		   configMINIMAL_STACK_SIZE*2,
+		   0,
+		   tskIDLE_PRIORITY+1,
+		   0
+    	);
+   /*xTaskCreate(
+		   taskSenialTecla1,
+   		   (const char *)"taskSenialTecla1",
+   		   configMINIMAL_STACK_SIZE*2,
+   		   0,
+   		   tskIDLE_PRIORITY+1,
+   		   0
     	);
    xTaskCreate(
-		   taskSenialTecla1,                     // Funcion de la tarea a ejecutar
-   		   (const char *)"taskSenialTecla1",     // Nombre de la tarea como String amigable para el usuario
-   		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-   		   0,                          // Parametros de tarea
-   		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-   		   0                           // Puntero a la tarea creada en el sistema
-    	);
-   xTaskCreate(
-   		   taskSenialTecla2,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskSenialTecla2",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
-		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+   		   taskSenialTecla2,
+		   (const char *)"taskSenialTecla2",
+		   configMINIMAL_STACK_SIZE*2,
+		   0,
+		   tskIDLE_PRIORITY+1,
+		   0
    	   );
    xTaskCreate(
-   		   taskSenialTecla3,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskSenialTecla3",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
-		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+   		   taskSenialTecla3,
+		   (const char *)"taskSenialTecla3",
+		   configMINIMAL_STACK_SIZE*2,
+		   0,
+		   tskIDLE_PRIORITY+1,
+		   0
     	);
    xTaskCreate(
-   		   taskSenialTecla4,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskSenialTecla4",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
-		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+   		   taskSenialTecla4,
+		   (const char *)"taskSenialTecla4",
+		   configMINIMAL_STACK_SIZE*2,
+		   0,
+		   tskIDLE_PRIORITY+1,
+		   0
     	);
-
+    */
    xTaskCreate(
-		   taskProcessor,                     // Funcion de la tarea a ejecutar
-   		   (const char *)"taskProcessor",     // Nombre de la tarea como String amigable para el usuario
-   		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-   		   0,                          // Parametros de tarea
+		   taskProcessor,
+   		   (const char *)"taskProcessor",
+   		   configMINIMAL_STACK_SIZE*2,
+   		   0,
    		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-   		   0                           // Puntero a la tarea creada en el sistema
+   		   0
        	);
    xTaskCreate(
-		   taskAceleradorFreno,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskAceleradorFreno",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
+		   taskAceleradorFreno,
+		   (const char *)"taskAceleradorFreno",
+		   configMINIMAL_STACK_SIZE*2,
+		   0,
 		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+		   0
     	);
    /*xTaskCreate(
-		   taskEnvioDatos,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskEnvioDatos",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
+		   taskEnvioDatos,
+		   (const char *)"taskEnvioDatos",
+		   configMINIMAL_STACK_SIZE*2,
+		   0,
 		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+		   0
     	);*/
    xTaskCreate(
-		   taskGiroscopo,                     // Funcion de la tarea a ejecutar
-		   (const char *)"taskGiroscopo",     // Nombre de la tarea como String amigable para el usuario
-		   configMINIMAL_STACK_SIZE*4, // Cantidad de stack de la tarea
-		   0,                          // Parametros de tarea
+		   taskGiroscopo,
+		   (const char *)"taskGiroscopo",
+		   configMINIMAL_STACK_SIZE*4,
+		   0,
 		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-		   0                           // Puntero a la tarea creada en el sistema
+		   0
     	);
    /*xTaskCreate(
-		   taskUartConnection,                     // Funcion de la tarea a ejecutar
-   		   (const char *)"taskUartConnection",     // Nombre de la tarea como String amigable para el usuario
-   		   configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
-   		   0,                          // Parametros de tarea
+		   taskUartConnection,
+   		   (const char *)"taskUartConnection",
+   		   configMINIMAL_STACK_SIZE*2,
+   		   0,
    		   tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-   		   0                           // Puntero a la tarea creada en el sistema
+   		   0
        	);*/
 
    // Iniciar scheduler
-   debugPrintlnString( "Iniciando scheduler" );
    vTaskStartScheduler();
 
-   // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE ) {
       // Si cae en este while 1 significa que no pudo iniciar el scheduler
    }
 
-   // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
-   // directamenteno sobre un microcontroladore y no es llamado por ningun
-   // Sistema Operativo, como en el caso de un programa para PC.
    return 0;
 }
 
@@ -317,16 +310,11 @@ void taskMefAntirrebote( void* taskParmPtr )
 			   }
 		   }
 
-
-/*
-		   xSemaphoreTake(SemBin[1],portMAX_DELAY);
-		   xSemaphoreTake(SemBin[2],portMAX_DELAY);
-		   xSemaphoreTake(SemBin[3],portMAX_DELAY);*/
 	   }
    }
 }
 
-void taskSenialTecla1( void* taskParmPtr )
+/*void taskSenialTecla1( void* taskParmPtr )
 {
       // ---------- CONFIGURACIONES ------------------------------
 	   gpioWrite( LEDG, LOW);
@@ -445,7 +433,8 @@ void taskSenialTecla4( void* taskParmPtr )
 
       }
 
-}
+}*/
+
 void taskProcessor(void* taskParmPtr){
 	//-- Setup tarea
 	TickType_t tiempo_inicio_ciclo = xTaskGetTickCount();
@@ -463,7 +452,7 @@ void taskProcessor(void* taskParmPtr){
 	vehiculo.tempMD=45;
 	vehiculo.tempMI=50;
 
-	//vTaskDelay( delayInicial*3 / portTICK_RATE_MS );
+
 
 	//-- Loop tarea
 	while(1){
@@ -480,7 +469,7 @@ void taskProcessor(void* taskParmPtr){
 
 		if(vehiculo.alarma ==ON){
 			//-- Se presiono el boton de parada de emergencia
-			debugPrintlnString( "--- ALARMA --- Se presiono el boton de parada de emergencia");
+			//--- debugPrintlnString( "--- ALARMA --- Se presiono el boton de parada de emergencia");
 			vehiculo.estado = ALARMA;
 			//--- Nos aseguramos que las salidas queden desactivadas
 			vehiculo.aceleradorOutMD = 0;
@@ -513,7 +502,7 @@ void taskProcessor(void* taskParmPtr){
 				if( (vehiculo.frenoIn ==0) && (vehiculo.aceleradorIn ==0) ){
 					//--- El vehiculo se encuentra en condiciones de ser manipulado
 					vehiculo.estado = LISTO;
-					debugPrintlnString("Vehiculo LISTO");
+					//debugPrintlnString("Vehiculo LISTO");
 					//--- Nos aseguramos que las salidas se encuentran desactivadas
 					vehiculo.aceleradorOutMD = 0;
 					vehiculo.aceleradorOutMI = 0;
@@ -524,7 +513,7 @@ void taskProcessor(void* taskParmPtr){
 					//--- El freno tiene mayor prioridad que el acelerador
 					//--- Al momento del frenado se desestima la entrada del acelerador
 					vehiculo.estado = FRENANDO;
-					debugPrintlnString("Vehiculo FRENANDO");
+					//debugPrintlnString("Vehiculo FRENANDO");
 					vehiculo.aceleradorOutMD = 0;
 					vehiculo.aceleradorOutMI = 0;
 					vehiculo.frenoOutMD = vehiculo.frenoIn;
@@ -532,7 +521,7 @@ void taskProcessor(void* taskParmPtr){
 				}
 				else if(vehiculo.aceleradorIn > 0){
 					vehiculo.estado = ACELERANDO;
-					debugPrintlnString("Vehiculo ACELERANDO");
+					//debugPrintlnString("Vehiculo ACELERANDO");
 					vehiculo.aceleradorOutMD = vehiculo.aceleradorIn;
 					vehiculo.aceleradorOutMI = vehiculo.aceleradorIn;
 					vehiculo.frenoOutMD = 0;
@@ -542,7 +531,7 @@ void taskProcessor(void* taskParmPtr){
 			else{
 				//--- El vehiculo se encuentra parado.
 				vehiculo.estado = PARADO;
-				debugPrintlnString("Vehiculo PARADO");
+				//debugPrintlnString("Vehiculo PARADO");
 				//--- Nos aseguramos que las salidas queden desactivadas
 				vehiculo.aceleradorOutMD = 0;
 				vehiculo.aceleradorOutMI = 0;
@@ -557,18 +546,20 @@ void taskAceleradorFreno(void* taskParmPtr ){
 	//-- Setup tarea
 	TickType_t tiempo_inicio_ciclo = xTaskGetTickCount();
 	adcConfig( ADC_ENABLE ); /* ADC */
+	uint16_t acelerador = 0;
+	uint16_t freno = 0;
 	//vTaskDelay( delayInicial / portTICK_RATE_MS );
 	//-- Loop tarea
 	while(1){
-		vehiculo.aceleradorIn = adcRead( CH1 );
-		acelerador = (vehiculo.aceleradorIn*100) /1024; 	//--- Porcentaje aceleracion
-		vehiculo.frenoIn = adcRead( CH2 );
-		freno = (adcRead( vehiculo.frenoIn )*100) /1024 ;	//--- Porcentaje frenado
 
-		debugPrintlnString( "Acelerador:  ");
-		debugPrintlnInt( acelerador );
-		debugPrintlnString( "Freno:  ");
-		debugPrintlnInt( freno);
+		acelerador= adcRead( CH1 );
+		freno = adcRead( CH2 );
+
+		//--- Mutex Lock
+		vehiculo.aceleradorIn = acelerador;
+		vehiculo.frenoIn = freno;
+		//--- Mutex unlock
+
 		vTaskDelayUntil(&tiempo_inicio_ciclo,60/portTICK_RATE_MS);
 	}
 
@@ -588,15 +579,20 @@ void taskGiroscopo(void* taskParmPtr ){
 
 	int8_t status;
 	char buffer[50];
+
+	float giroX;
+	float giroY;
+	float giroZ;
+
 	TickType_t tiempo_inicio_ciclo = xTaskGetTickCount();
 	//-- Configuracion de la direccion I2C
 	MPU9250_address_t addr = 0x68; // If MPU9250 AD0 pin is connected to GND
 	status = mpu9250Init_RTOS( addr );
-	debugPrintInt(status);
+	//debugPrintInt(status);
 	if( status < 0 ){
 
 	      while(1){
-	    	  debugPrintlnString( "Error al inicializar el modulo MPU9250");
+	    	  //debugPrintlnString( "Error al inicializar el modulo MPU9250");
 	    	  vTaskDelayUntil(&tiempo_inicio_ciclo,1000/portTICK_RATE_MS);
 	      }
 	   }
@@ -607,28 +603,83 @@ void taskGiroscopo(void* taskParmPtr ){
 		//Leer el sensor y guardar en estructura de control
 		mpu9250Read_RTOS();
 
-		// Imprimir resultados
-		debugPrintlnString("Giroscopo: ");
-		debugPrintString("   X: ");
-		debugPrintInt(mpu9250GetGyroX_rads_RTOS()*(180/3.14159));
-		debugPrintString("   Y: ");
-		debugPrintInt(mpu9250GetGyroY_rads_RTOS()*(180/3.14159));
-		debugPrintString("   Z: ");
-		debugPrintInt(mpu9250GetGyroZ_rads_RTOS()*(180/3.14159));
-		debugPrintlnString("");
+		giroX = mpu9250GetGyroX_rads_RTOS()*(180/3.14159);
+		giroY = mpu9250GetGyroY_rads_RTOS()*(180/3.14159);
+		giroZ = mpu9250GetGyroZ_rads_RTOS()*(180/3.14159);
+
+		//--- Mutex LOCK
+		vehiculo.giroscopoX = giroX;
+		vehiculo.giroscopoY = giroY;
+		vehiculo.giroscopoZ = giroZ;
+		//--- Mutex UNLOCK
+
 		vTaskDelayUntil(&tiempo_inicio_ciclo,80/portTICK_RATE_MS);
 	}
 }
 
 void taskUartConnection( void* taskParmPtr ){
 	TickType_t tiempo_inicio_ciclo = xTaskGetTickCount();
-	vTaskDelayUntil(&tiempo_inicio_ciclo,1000/portTICK_RATE_MS);
-	/*//-- Setup tarea
-	uartConfig( UART_GPIO, 9600 );
+	debugPrintConfigUart( UART_USB, 115200 );
+	debugPrintString("Scheduler inicializado\r\n");
+	//-- Setup tarea
+	//uartConfig( UART_GPIO, 9600 );
+
 	//-- Loop tarea
 	while(1){
-		uartWriteString( UART_GPIO, "\r\nGo Go Go!\r\n" );
+		//uartWriteString( UART_GPIO, "\r\nGo Go Go!\r\n" );
 
-	}*/
+		debugPrintString("--   X: ");
+		debugPrintInt(vehiculo.giroscopoX);
+		debugPrintString("--   Y: ");
+		debugPrintInt(vehiculo.giroscopoY);
+		debugPrintString("--   Z: ");
+		debugPrintInt(vehiculo.giroscopoZ);
+
+		debugPrintlnString( "--Acelerador:  ");
+		debugPrintlnInt( (vehiculo.aceleradorIn*100) /1024 );
+		debugPrintlnString( "--Freno:  ");
+		debugPrintlnInt( (vehiculo.frenoIn*100) /1024 );
+
+		debugPrintlnString( "--Temperatura BMS:  ");
+		debugPrintlnInt( (int) vehiculo.tempBMS);
+		debugPrintlnString( "--Temperatura MD:  ");
+		debugPrintlnInt( (int) vehiculo.tempMD);
+		debugPrintlnString( "--Temperatura MI:  ");
+		debugPrintlnInt( (int) vehiculo.tempMI);
+
+		if (vehiculo.estado == LISTO){
+			debugPrintlnString( "--Vehiculo LISTO");
+		}
+		else if (vehiculo.estado == FRENANDO){
+			debugPrintlnString( "--Vehiculo FRENANDO");
+		}
+		else if (vehiculo.estado == ACELERANDO){
+			debugPrintlnString( "--Vehiculo ACELERANDO");
+		}
+		else if (vehiculo.estado == PARADO){
+			debugPrintlnString( "--Vehiculo PARADO");
+		}
+		else if (vehiculo.estado == ALARMA){
+			debugPrintlnString( "--Vehiculo ALARMA");
+		}
+		else{
+			debugPrintlnString( "--Vehiculo ----ESTADO INDEFINIDO----");
+		}
+		debugPrintlnString( "-- Salida Acelerador Motor Derecho");
+		debugPrintlnInt( (int) vehiculo.aceleradorOutMD);
+		debugPrintlnString( "--Salida Acelerador Motor Izquierdo");
+		debugPrintlnInt( (int) vehiculo.aceleradorOutMI);
+
+		debugPrintlnString( "--Salida Freno Motor Derecho");
+		debugPrintlnInt( (int) vehiculo.frenoOutMD);
+
+		debugPrintlnString( "--Salida Freno Motor Izquierdo");
+		debugPrintlnInt( (int) vehiculo.frenoOutMI);
+
+		debugPrintlnString( "--Estado Variable Start");
+		debugPrintlnInt( vehiculo.start );
+
+		vTaskDelayUntil(&tiempo_inicio_ciclo,1000/portTICK_RATE_MS);
+	}
 }
 /*==================[fin del archivo]========================================*/
