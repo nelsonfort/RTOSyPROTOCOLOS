@@ -78,7 +78,7 @@ mis_proyectos/FinalRtosProtocolos/out/mis_proyectos/FinalRtosProtocolos/src/Fina
  libs/vendor_libs/lpc_chip_43xx/inc/lpc_types.h \
  libs/freertos/include/task.h libs/freertos/include/private/list.h \
  libs/freertos/include/semphr.h libs/freertos/include/queue.h \
- libs/sapi/sapi_v0.5.2/base/inc/sapi.h \
+ libs/freertos/include/queue.h libs/sapi/sapi_v0.5.2/base/inc/sapi.h \
  libs/sapi/sapi_v0.5.2/base/inc/sapi_datatypes.h \
  libs/sapi/sapi_v0.5.2/board/inc/sapi_peripheral_map.h \
  libs/sapi/sapi_v0.5.2/board/inc/sapi_board.h \
@@ -130,4 +130,5 @@ mis_proyectos/FinalRtosProtocolos/out/mis_proyectos/FinalRtosProtocolos/src/Fina
  libs/sapi/sapi_v0.5.2/external_peripherals/inc/sapi_magnetometer_hmc5883l.h \
  libs/sapi/sapi_v0.5.2/external_peripherals/inc/sapi_magnetometer_qmc5883l.h \
  libs/sapi/sapi_v0.5.2/external_peripherals/inc/sapi_imu_mpu9250.h \
- libs/sapi/sapi_v0.5.2/external_peripherals/inc/sapi_ultrasonic_hcsr04.h
+ libs/sapi/sapi_v0.5.2/external_peripherals/inc/sapi_ultrasonic_hcsr04.h \
+ mis_proyectos/FinalRtosProtocolos/inc/stringManipulation.h

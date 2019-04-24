@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/vendor_libs/lpc_chip_43xx/src/fpu_init.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/vendor_libs/lpc_chip_43xx/src/fpu_init.o: \
  libs/vendor_libs/lpc_chip_43xx/src/fpu_init.c \
  libs/vendor_libs/lpc_chip_43xx/inc/config_43xx/sys_config.h \
  libs/vendor_libs/lpc_chip_43xx/inc/cmsis.h \

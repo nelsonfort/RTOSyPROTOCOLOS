@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_sct.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_sct.o: \
  libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_sct.c \
  libs/sapi/sapi_v0.5.2/soc/peripherals/inc/sapi_sct.h \
  libs/sapi/sapi_v0.5.2/base/inc/sapi_datatypes.h \

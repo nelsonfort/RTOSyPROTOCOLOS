@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/abstract_modules/src/sapi_convert.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/sapi/sapi_v0.5.2/abstract_modules/src/sapi_convert.o: \
  libs/sapi/sapi_v0.5.2/abstract_modules/src/sapi_convert.c \
  libs/sapi/sapi_v0.5.2/abstract_modules/inc/sapi_convert.h \
  libs/sapi/sapi_v0.5.2/base/inc/sapi_datatypes.h \

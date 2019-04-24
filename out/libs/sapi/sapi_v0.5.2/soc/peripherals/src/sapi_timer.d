@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_timer.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_timer.o: \
  libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_timer.c \
  libs/sapi/sapi_v0.5.2/soc/peripherals/inc/sapi_timer.h \
  libs/sapi/sapi_v0.5.2/base/inc/sapi_datatypes.h \

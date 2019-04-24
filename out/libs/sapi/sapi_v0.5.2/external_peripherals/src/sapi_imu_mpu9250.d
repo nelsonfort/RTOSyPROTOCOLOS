@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/external_peripherals/src/sapi_imu_mpu9250.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/sapi/sapi_v0.5.2/external_peripherals/src/sapi_imu_mpu9250.o: \
  libs/sapi/sapi_v0.5.2/external_peripherals/src/sapi_imu_mpu9250.c \
  libs/sapi/sapi_v0.5.2/external_peripherals/inc/sapi_imu_mpu9250.h \
  libs/sapi/sapi_v0.5.2/base/inc/sapi_datatypes.h \

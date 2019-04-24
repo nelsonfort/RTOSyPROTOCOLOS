@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_tick.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_tick.o: \
  libs/sapi/sapi_v0.5.2/soc/peripherals/src/sapi_tick.c \
  libs/sapi/sapi_v0.5.2/soc/peripherals/inc/sapi_tick.h \
  libs/sapi/sapi_v0.5.2/base/inc/sapi_datatypes.h \
@@ -68,7 +68,7 @@ mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/soc/peripherals/src/s
  libs/vendor_libs/lpc_board_ciaa_edu_4337/inc/board_api.h \
  libs/vendor_libs/lpc_chip_43xx/inc/lpc_types.h \
  libs/freertos/include/FreeRTOS.h \
- mis_proyectos/freeRTOS_01_blinky/inc/FreeRTOSConfig.h \
+ mis_proyectos/FinalRtosProtocolos/inc/FreeRTOSConfig.h \
  libs/freertos/include/private/projdefs.h \
  libs/freertos/include/private/portable.h \
  libs/freertos/include/private/deprecated_definitions.h \

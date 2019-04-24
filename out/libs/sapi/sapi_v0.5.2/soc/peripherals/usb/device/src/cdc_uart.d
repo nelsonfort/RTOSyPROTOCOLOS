@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/sapi/sapi_v0.5.2/soc/peripherals/usb/device/src/cdc_uart.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/sapi/sapi_v0.5.2/soc/peripherals/usb/device/src/cdc_uart.o: \
  libs/sapi/sapi_v0.5.2/soc/peripherals/usb/device/src/cdc_uart.c \
  libs/vendor_libs/lpc_board_ciaa_edu_4337/inc/board.h \
  libs/vendor_libs/lpc_chip_43xx/inc/chip.h \

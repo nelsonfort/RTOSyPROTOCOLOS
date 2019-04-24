@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/vendor_libs/lpc_chip_43xx/src/ritimer_18xx_43xx.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/vendor_libs/lpc_chip_43xx/src/ritimer_18xx_43xx.o: \
  libs/vendor_libs/lpc_chip_43xx/src/ritimer_18xx_43xx.c \
  libs/vendor_libs/lpc_chip_43xx/inc/chip.h \
  libs/vendor_libs/lpc_chip_43xx/inc/config_43xx/sys_config.h \

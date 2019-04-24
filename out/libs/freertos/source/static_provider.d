@@ -1,6 +1,6 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/freertos/source/static_provider.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/freertos/source/static_provider.o: \
  libs/freertos/source/static_provider.c libs/freertos/include/FreeRTOS.h \
- mis_proyectos/freeRTOS_01_blinky/inc/FreeRTOSConfig.h \
+ mis_proyectos/FinalRtosProtocolos/inc/FreeRTOSConfig.h \
  libs/vendor_libs/lpc_chip_43xx/inc/chip.h \
  libs/vendor_libs/lpc_chip_43xx/inc/config_43xx/sys_config.h \
  libs/vendor_libs/lpc_chip_43xx/inc/cmsis.h \

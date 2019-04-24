@@ -1,4 +1,4 @@
-mis_proyectos/freeRTOS_01_blinky/out/libs/vendor_libs/lpc_board_ciaa_edu_4337/src/system.o: \
+mis_proyectos/FinalRtosProtocolos/out/libs/vendor_libs/lpc_board_ciaa_edu_4337/src/system.o: \
  libs/vendor_libs/lpc_board_ciaa_edu_4337/src/system.c \
  libs/vendor_libs/lpc_board_ciaa_edu_4337/inc/board.h \
  libs/vendor_libs/lpc_chip_43xx/inc/chip.h \

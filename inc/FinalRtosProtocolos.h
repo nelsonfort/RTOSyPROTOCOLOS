@@ -15,14 +15,25 @@
 #include "mpu9250_RTOS_Compatible.h"
 #include "task.h"
 #include "semphr.h"
+#include "queue.h"
 #include "sapi.h"
-// sAPI header
-//#include "sapi.h"
+#include <string.h>
+#include "stringManipulation.h"
+#include "board.h"
+//#include "IRQConfigAndHandlers.h"
 
 // ---- Definicion de constantes
 #define SAFE_TEMP_MI 60
 #define SAFE_TEMP_MD 60
 #define SAFE_TEMP_BMS 60
+
+#define 	taskLedVariablePriority 		( tskIDLE_PRIORITY + 1)
+#define  	taskProcessorPriority 			( tskIDLE_PRIORITY + 5)
+#define  	taskAceleradorFrenoPriority		( tskIDLE_PRIORITY + 4)
+#define  	taskEnvioDatosPriority			( tskIDLE_PRIORITY + 2)
+#define  	taskGiroscopoPriority			( tskIDLE_PRIORITY + 4)
+#define  	taskUartConnectionPriority		( tskIDLE_PRIORITY + 2)
+#define		taskAntirreboteTecXPriority		( tskIDLE_PRIORITY + 3)
 
 // --- Estructura que almacena todas las variables y estados del vehiculo
 typedef enum {PARADO, ACELERANDO, FRENANDO, LISTO, ALARMA} stateCar;
@@ -31,9 +42,9 @@ typedef struct{
 	uint16_t aceleradorIn;		//--- Entrada del acelerador por medio del ADC
 	uint16_t frenoIn;			//--- Entrada del freno por medio del ADC
 
-	double giroscopoX;		//--- Posteriormente se analizara el acelerometro y magnetometro
-	double giroscopoY;		//--- Para obtener tambien informacion de velocidad en el vehiculo
-	double giroscopoZ;
+	float giroscopoX;		//--- Posteriormente se analizara el acelerometro y magnetometro
+	float giroscopoY;		//--- Para obtener tambien informacion de velocidad en el vehiculo
+	float giroscopoZ;		//--- Y realizar un factor de corrección del giro de ser necesario
 
 	uint8_t start;		//--- Indica si el vehiculo esta listo para ser utilizado
 	uint8_t alarma;		//--- Indica si se activo el boton de parada de emergencia
@@ -48,17 +59,13 @@ typedef struct{
 	float frenoOutMD;
 }globalCar;
 
-// --- Estados posibles de la maquina de estados
-typedef enum {BUTTON_UP, BUTTON_FALLING, BUTTON_DOWN, BUTTON_RAISING} fsmDebounce_t;
-/* Estructura de datos necesarios para la MEF antirebote*/
+typedef enum {UP, DOWN, FALLING, RAISING} stateBTN;
 typedef struct{
-	gpioMap_t tecla;
-	fsmDebounce_t state;
-	uint32_t delay;
-	TickType_t tiempo_inicio_ciclo;
-	TickType_t tiempo_fin_ciclo;
-	TickType_t tiempo_presionado;
-}debounceData_t;
+	stateBTN state;         //-- Estado actual
+	TickType_t tic;			//-- Inicio de cuenta
+	TickType_t toc;			//-- Fin de cuenta
+	gpioMap_t tec;            //-- Indica donde se encuentra fisicamente conectada la tecla
+}btnStruct;
 
 
 
