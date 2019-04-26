@@ -106,7 +106,7 @@ int main(void)
 		   0                           // Puntero a la tarea creada en el sistema
    );
 
-   /*xTaskCreate(
+   xTaskCreate(
 		   taskProcessor,
    		   (const char *)"taskProcessor",
    		   configMINIMAL_STACK_SIZE*2,
@@ -130,14 +130,14 @@ int main(void)
 		   taskEnvioDatosPriority,         // Prioridad de la tarea
 		   0
     	);
-   xTaskCreate(
+   /*xTaskCreate(
 		   taskGiroscopo,
 		   (const char *)"taskGiroscopo",
 		   configMINIMAL_STACK_SIZE*2,
 		   0,
 		   taskGiroscopoPriority,         // Prioridad de la tarea
 		   0
-    	);
+    	);*/
    xTaskCreate(
 		   taskUartConnection,
    		   (const char *)"taskUartConnection",
@@ -145,7 +145,7 @@ int main(void)
    		   0,
 		   taskUartConnectionPriority,         // Prioridad de la tarea
    		   0
-       	);*/
+       	);
    xTaskCreate(
    		   taskAntirreboteTec1,
    		   (const char *)"taskAntirreboteTec1",
@@ -331,8 +331,7 @@ void taskAntirreboteTec1( void* taskParmPtr ){
 			if(tecla1.toc - tecla1.tic > ( TickType_t ) 20/portTICK_RATE_MS ){
 				if(gpioRead(tecla1.tec) == 1){
 					tecla1.state = UP;
-					//vehiculo.start = ON;
-					/*
+
 					//-- En este momento se cumplio todo el ciclo del antirebote
 					//-- Antes de dejarlo en el estado inicial se activa la variable deseada.
 					if( mutexSem!= NULL ) //-- Si ya se encuentra creado el mutex
@@ -349,7 +348,7 @@ void taskAntirreboteTec1( void* taskParmPtr ){
 						{
 							// No se pudo ingresar al mutex
 						}
-					}*/
+					}
 					gpioToggle(LEDR);
 				}
 			}
@@ -396,8 +395,7 @@ void taskAntirreboteTec2( void* taskParmPtr ){
 			if(tecla2.toc - tecla2.tic > ( TickType_t ) 20/portTICK_RATE_MS ){
 				if(gpioRead(tecla2.tec) == 1){
 					tecla2.state = UP;
-					//vehiculo.start = OFF;
-					/*
+
 					//-- En este momento se cumplio todo el ciclo del antirebote
 					//-- Antes de dejarlo en el estado inicial se activa la variable deseada.
 					if( mutexSem!= NULL ) //-- Si ya se encuentra creado el mutex
@@ -414,7 +412,7 @@ void taskAntirreboteTec2( void* taskParmPtr ){
 						{
 							// No se pudo ingresar al mutex
 						}
-					}*/
+					}
 					gpioToggle(LEDR);
 				}
 			}
@@ -459,8 +457,7 @@ void taskAntirreboteTec3( void* taskParmPtr ){
 			if(tecla3.toc - tecla3.tic > ( TickType_t ) 20/portTICK_RATE_MS ){
 				if(gpioRead(tecla3.tec) == 1){
 					tecla3.state = UP;
-					//vehiculo.alarma = ON;
-					/*
+
 					//-- En este momento se cumplio todo el ciclo del antirebote
 					//-- Antes de dejarlo en el estado inicial se activa la variable deseada.
 					if( mutexSem!= NULL ) //-- Si ya se encuentra creado el mutex
@@ -477,7 +474,7 @@ void taskAntirreboteTec3( void* taskParmPtr ){
 						{
 							// No se pudo ingresar al mutex
 						}
-					}*/
+					}
 					gpioToggle(LEDR);
 				}
 			}
@@ -524,8 +521,7 @@ void taskAntirreboteTec4( void* taskParmPtr ){
 			if(tecla4.toc - tecla4.tic > ( TickType_t ) 20/portTICK_RATE_MS ){
 				if(gpioRead(tecla4.tec) == 1){
 					tecla4.state = UP;
-					//vehiculo.alarma = OFF;
-					/*
+
 					//-- En este momento se cumplio todo el ciclo del antirebote
 					//-- Antes de dejarlo en el estado inicial se activa la variable deseada.
 					if( mutexSem!= NULL ) //-- Si ya se encuentra creado el mutex
@@ -542,7 +538,7 @@ void taskAntirreboteTec4( void* taskParmPtr ){
 						{
 							// No se pudo ingresar al mutex
 						}
-					}*/
+					}
 					gpioToggle(LEDR);
 				}
 			}
@@ -712,14 +708,14 @@ void taskProcessor(void* taskParmPtr){
 					//debugPrintlnString("Vehiculo FRENANDO");
 					localVehiculo.aceleradorOutMD = 0;
 					localVehiculo.aceleradorOutMI = 0;
-					localVehiculo.frenoOutMD = (localVehiculo.frenoIn*3.3)/1024;
-					localVehiculo.frenoOutMI = (localVehiculo.frenoIn*3.3)/1024;
+					localVehiculo.frenoOutMD =  (localVehiculo.frenoIn*3.3)/1024; //localVehiculo.frenoIn;
+					localVehiculo.frenoOutMI =  (localVehiculo.frenoIn*3.3)/1024; //localVehiculo.frenoIn;
 				}
 				else if(localVehiculo.aceleradorIn > 0){
 					localVehiculo.estado = ACELERANDO;
 					//debugPrintlnString("Vehiculo ACELERANDO");
-					localVehiculo.aceleradorOutMD = (localVehiculo.aceleradorIn * 3.3)/1024;
-					localVehiculo.aceleradorOutMI = (localVehiculo.aceleradorIn * 3.3)/1024;
+					localVehiculo.aceleradorOutMD = (localVehiculo.aceleradorIn * 3.3)/1024; //localVehiculo.aceleradorIn;
+					localVehiculo.aceleradorOutMI = (localVehiculo.aceleradorIn * 3.3)/1024; //localVehiculo.aceleradorIn;
 					localVehiculo.frenoOutMD = 0;
 					localVehiculo.frenoOutMI = 0;
 				}
@@ -743,11 +739,11 @@ void taskProcessor(void* taskParmPtr){
 			if( xSemaphoreTake( mutexSem, ( TickType_t ) 10 ) == pdTRUE )
 			{
 				//--- Lectura o Escritura de variables compartidas
-				localVehiculo.estado = vehiculo.estado;
-				localVehiculo.aceleradorOutMD = vehiculo.aceleradorOutMD;
-				localVehiculo.aceleradorOutMI = vehiculo.aceleradorOutMI;
-				localVehiculo.frenoOutMD = vehiculo.frenoOutMD;
-				localVehiculo.frenoOutMI = vehiculo.frenoOutMI;
+				vehiculo.estado = localVehiculo.estado;
+				vehiculo.aceleradorOutMD = localVehiculo.aceleradorOutMD;
+				vehiculo.aceleradorOutMI = localVehiculo.aceleradorOutMI;
+				vehiculo.frenoOutMD = localVehiculo.frenoOutMD;
+				vehiculo.frenoOutMI = localVehiculo.frenoOutMI;
 				//--- Mutex unlock
 				xSemaphoreGive( mutexSem );
 			}
@@ -798,7 +794,6 @@ void taskAceleradorFreno(void* taskParmPtr ){
 void taskGiroscopo(void* taskParmPtr ){
 	//-- Setup tarea
 	int8_t status;
-	char buffer[50];
 
 	float giroX;
 	float giroY;
